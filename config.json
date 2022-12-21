@@ -1,0 +1,10 @@
+{
+    "port": 8080,
+    "basePath": "/api",
+    "mysqlHost": "localhost",
+    "mysqlUsername": "root",
+    "mysqlPassword": "",
+    "mysqlDatabase": "asicoursepedestre",
+    "jwtPass": "lacoursecestlavie",
+    "jwtExpireLength": "99 years"
+}
