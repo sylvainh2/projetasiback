@@ -1,8 +1,13 @@
 const express = require('express');
 const authValidator = require('../utils/auth');
 const pictureController = require('../controllers/picture.controller');
+const validator = require('../utils/validator');
+const pictureSchema = require('../models/picture');
+// const fileUpload = require('../lib/index');
+// const app = express();
 
 const router = express.Router();
+// app.use(fileUpload());
 
 router.route('/')
     .get(authValidator.isAuth(),async(req,res)=>{
@@ -13,7 +18,18 @@ router.route('/')
         }
         res.status(200).json(pictures);
     })
-;
+
+    .put(authValidator.isAuth(),validator(pictureSchema),async(req,res)=>{
+        const new_picture = await pictureController.add(req.body);
+        if(!new_picture || new_picture.length===0){
+            res.status(400).json({message:"problème à la création de la photo"});
+        }
+        res.status(201).json(new_picture);
+    })
+
+    ;
+ 
+
 
 router.route('/date/:date')
     .get(authValidator.isAuth(),async(req,res)=>{

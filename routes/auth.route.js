@@ -22,9 +22,8 @@ router.route('/')
                 email:user.email,
                 roles:user.roles
             },config.jwtPass,{expiresIn:config.jwtExpireLength});
-            // on stocke le token dans le local storage et on le renvoie
             
-            
+            // on renvoie le token            
             res.json({
                 access_token:token
             });
