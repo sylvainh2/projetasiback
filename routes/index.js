@@ -7,6 +7,7 @@ const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
 const pictureRoute = require('./picture.route');
 const galleryRoute = require('./gallery.route');
+// const uploadRoute = require('./multer.config.js');
 
 // Comme sur app.js, on appelle le router de Express...
 const router = express.Router();
@@ -19,6 +20,7 @@ router.use('/login', authRoute);
 router.use('/users', userRoute);
 router.use('/photos', pictureRoute);
 router.use('/galleryupload',galleryRoute);
+// router.use('/upload', uploadRoute);
 
 // On exporte le router pour le rendre accessible en faisant un 
 // require de ce fichier.

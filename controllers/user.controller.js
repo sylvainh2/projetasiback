@@ -32,9 +32,10 @@ const add = async (data) => {
     [data.email, hashedPassword, data.first_name, data.name, data.birthdate, data.address, data.postcode, data.city, data.tel,'','',0,'2000-01-01', 'user',data.share_infos]);
     if (!req) {
         return null;
+    } else {
+        // Après l'ajout en bdd du nouvel user, on récupère les données de ce user créé.
+        return getById(req.insertId);
     }
-    // Après l'ajout en bdd du nouvel user, on récupère les données de ce user créé.
-    return getById(req.insertId);
 
 };
 
@@ -107,8 +108,9 @@ const getByEmail = async (data) => {
     const [user, err] = await db.query("SELECT * FROM users WHERE email = ?", [data.email]);
     if (!user || user.length == 0) {
         return null;
+    } else {
+        return user[0];
     }
-    return user[0];
 }
 
 module.exports = {

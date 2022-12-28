@@ -19,8 +19,9 @@ router.route('/')
         const new_user = await userController.add(req.body);
         if(!new_user){
             res.status(404).json();
+        } else {
+            res.status(201),json(new_user);
         }
-        res.status(201),json(new_user);
     })
 ;
 
@@ -29,24 +30,27 @@ router.route('/:id')
         const user = await userController.getById(req.params.id);
         if(!user || user.length===0){
             res.status(404).json();
+        } else {
+            res.status(200).json(user);
         }
-        res.status(200).json(user);
     })
 
     .patch(authValidator.isAuth(),async(req,res)=>{
         const user = await userController.update(req.params.id,req.body);
         if(!user){
             res.status(404).json();
+        } else {
+            res.status(202).json();
         }
-        res.status(202).json();
     })
 
     .delete(authValidator.isAuth(),async(req,res)=>{
         const user = await userController.remove(req.params.id);
         if(!user){
             res.status(404).json();
+        } else {
+            res.status(202).json()
         }
-        res.status(202).json()
     })
 ;
 

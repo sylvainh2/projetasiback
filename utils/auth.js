@@ -37,7 +37,7 @@ const isAdmin = () => {
         
         if (!header) {
             res.status(401).json({message: "Vous devez être connecté"});
-        }
+        } else {
 
         const access_token = header.split(" ")[1];
 
@@ -53,7 +53,7 @@ const isAdmin = () => {
             } else {
                 res.status(401).json({message: "Vous devez être administrateur"});
             }
-        });
+        })};
     }
 };
 
