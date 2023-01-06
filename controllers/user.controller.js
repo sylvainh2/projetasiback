@@ -94,7 +94,7 @@ const getByEmailAndPassword = async (data) => {
     if (!user) { 
         return null;
     }
-
+    console.log("user");
     const hashedPassword = await bcrypt.compare(data.password, user.password);
     
     if (hashedPassword) {

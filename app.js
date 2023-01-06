@@ -2,6 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const path = require('path');
 
 // On appelle également notre fichier "config.json" dans lequel 
 // se trouvent les paranètres de notre serveur.
@@ -23,6 +24,7 @@ app.use(morgan('dev'));
 // CORS, pour gérer les entêtes HTTP : 
 // (https://developer.mozilla.org/fr/docs/Glossary/CORS)
 app.use(cors());
+
 // JSON du paquet Express, pour permettre à Express de parser le JSON 
 // envoyé dans le corps des requêtes
 app.use(express.json());
@@ -33,8 +35,10 @@ app.use(express.json());
 // "http://localhost/api/{entité}" etc.
 app.use(config.basePath, routes);
 
-// on applique notre router sur la route /images pour importer des images
-// app.use('/images',express.static(path.join(_dirname,'uploads')));
+// on applique notre router sur la route /upload pour importer des images
+console.log(__dirname);
+app.use('/upload',express.static(path.join(__dirname, '/uploads')));
+
 
 
 // On dit à notre serveur Express d'écouter le port 8080 pour fonctionner

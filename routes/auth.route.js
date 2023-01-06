@@ -11,9 +11,7 @@ const router = express.Router();
 
 router.route('/')
     .post(validator(userSchema),async(req,res)=>{
-
         let user = await userController.getByEmailAndPassword(req.body);
-
         if(!user){
             res.status(401).json({message: "combinaison Email/Password incorrecte"});
         } else {

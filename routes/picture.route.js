@@ -3,7 +3,7 @@ const authValidator = require('../utils/auth');
 const pictureController = require('../controllers/picture.controller');
 const validator = require('../utils/validator');
 const pictureSchema = require('../models/picture');
-const multer = require("./multer.config");
+const multer = require("./multer-config");
 // const fileUpload = require('../lib/index');
 // const app = express();
 
