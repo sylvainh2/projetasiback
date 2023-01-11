@@ -17,10 +17,11 @@ const getById = async(id) => {
 };
 
 const getByName = async(data) => {
-    const [user,err] = await db.query ("SELECT * FROM users WHERE name=?, first_name=?",[data.name,data.first_name]);
+    const [user,err] = await db.query ("SELECT * FROM users WHERE name=? and first_name=?",[data.name,data.first_name]);
     if(!user || user.length === 0){
         return null;
     } else {
+        console.log("recupéré");
         return (user[0]);
     }
 };
@@ -46,12 +47,13 @@ const update = async (id, data) => {
         return null;
     } else {
         let password;
-        
+        console.log("retour getbyid");
         if (!data.password) {
             password = await bcrypt.hash(data.password, 10);
         } else {
             password = user.password;
         }
+        console.log("on va updater");
         // On met à jour, en réécrivant les champs potentiellement manquant, grace au user récupéré
         const [req, err] = await db.query("UPDATE users SET name=?, first_name=?, birthdate=?, address=?, postcode=?, city=?, tel=?,email = ?, profil_picture=?, certif_med=?, validity=?, share_infos=?, roles=?, validity_certif_date=?, password = ? WHERE id = ? LIMIT 1", 
         [
@@ -69,7 +71,7 @@ const update = async (id, data) => {
             data.share_infos || user.share_infos,
             data.roles || user.roles,
             data.validity_certif_date || user.validity_certif_date,
-            password, 
+            password,
             id
         ]);
         if (!req) {
@@ -105,6 +107,7 @@ const getByEmailAndPassword = async (data) => {
 };
 
 const getByEmail = async (data) => {
+    console.log(data.email);
     const [user, err] = await db.query("SELECT * FROM users WHERE email = ?", [data.email]);
     if (!user || user.length == 0) {
         return null;

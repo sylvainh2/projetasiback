@@ -35,11 +35,11 @@ app.use(express.json());
 // "http://localhost/api/{entité}" etc.
 app.use(config.basePath, routes);
 
-// on applique notre router sur la route /upload pour importer des images
+// on applique notre router sur la route /upload, et on autorise l'accès grace à express.static pour importer des images
 console.log(__dirname);
 app.use('/upload',express.static(path.join(__dirname, '/uploads')));
 
-
+app.use('/uploads',express.static(path.join(__dirname, '/uploads')));
 
 // On dit à notre serveur Express d'écouter le port 8080 pour fonctionner
 // (port par défaut de HTTP).
