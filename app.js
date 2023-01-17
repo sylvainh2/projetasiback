@@ -21,8 +21,8 @@ const app = express();
 
 // On applique nos middlewares : morgan, pour les logs dans le console
 app.use(morgan('dev'));
+
 // CORS, pour gérer les entêtes HTTP : 
-// (https://developer.mozilla.org/fr/docs/Glossary/CORS)
 app.use(cors());
 
 // JSON du paquet Express, pour permettre à Express de parser le JSON 
@@ -35,8 +35,8 @@ app.use(express.json());
 // "http://localhost/api/{entité}" etc.
 app.use(config.basePath, routes);
 
-// on applique notre router sur la route /upload, et on autorise l'accès grace à express.static pour importer des images
-console.log(__dirname);
+// on applique notre router sur la route /upload, et on autorise l'accès grace à express.static
+// pour importer et lire des images d'un server distant/client
 app.use('/upload',express.static(path.join(__dirname, '/uploads')));
 
 app.use('/uploads',express.static(path.join(__dirname, '/uploads')));

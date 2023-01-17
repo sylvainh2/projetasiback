@@ -12,12 +12,13 @@ const getById = async(id) => {
     if(!user || user.length === 0){
         return (null);
     } else {
+        console.log(user[0].birthdate);
         return (user[0]);
     }
 };
 
-const getByName = async(data) => {
-    const [user,err] = await db.query ("SELECT * FROM users WHERE name=? and first_name=?",[data.name,data.first_name]);
+const getByName = async(name,first_name) => {
+    const [user,err] = await db.query ("SELECT * FROM users WHERE name=? and first_name=?",[name,first_name]);
     if(!user || user.length === 0){
         return null;
     } else {
@@ -30,7 +31,7 @@ const add = async (data) => {
     const hashedPassword = await bcrypt.hash(data.password, 10);
 
     const [req, err] = await db.query("INSERT INTO users (email, password, first_name, name, birthdate, address, postcode, city, tel, profil_picture, certif_med, validity, validity_certif_date, roles, share_infos) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
-    [data.email, hashedPassword, data.first_name, data.name, data.birthdate, data.address, data.postcode, data.city, data.tel,'','',0,'2000-01-01', 'user',data.share_infos]);
+    [data.email, hashedPassword, data.first_name, data.name, data.birthdate, data.address, data.postcode, data.city, data.tel,'','','0','2000-01-01', 'user',data.share_infos]);
     if (!req) {
         return null;
     } else {
@@ -41,14 +42,15 @@ const add = async (data) => {
 };
 
 const update = async (id, data) => {
+    console.log("update/");
     // Pour update, on va d'abord chercher en base le user correspondant
     const user = await getById(id);
+    console.log("getbyid");
     if (!user) {
         return null;
     } else {
         let password;
-        console.log("retour getbyid");
-        if (!data.password) {
+        if (data.password) {
             password = await bcrypt.hash(data.password, 10);
         } else {
             password = user.password;
@@ -106,6 +108,14 @@ const getByEmailAndPassword = async (data) => {
     }
 };
 
+const updateVal =async(id,data) => {
+    const [user,err] = await db.query("UPDATE users SET validity=?, roles=? WHERE id=? LIMIT 1",[data.validity, data.roles,id]);
+    if (!user) {
+        return null;
+    } else {
+        return true;
+    }
+}
 const getByEmail = async (data) => {
     console.log(data.email);
     const [user, err] = await db.query("SELECT * FROM users WHERE email = ?", [data.email]);
@@ -121,6 +131,7 @@ module.exports = {
     getById,
     add,
     update,
+    updateVal,
     remove,
     getByEmailAndPassword,
     getByEmail,
