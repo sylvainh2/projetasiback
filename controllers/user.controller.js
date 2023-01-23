@@ -12,7 +12,7 @@ const getById = async(id) => {
     if(!user || user.length === 0){
         return (null);
     } else {
-        console.log(user[0].birthdate);
+        // console.log(user[0].birthdate);
         return (user[0]);
     }
 };
@@ -42,10 +42,10 @@ const add = async (data) => {
 };
 
 const update = async (id, data) => {
-    console.log("update/");
+    // console.log("update/");
     // Pour update, on va d'abord chercher en base le user correspondant
     const user = await getById(id);
-    console.log("getbyid");
+    // console.log("getbyid");
     if (!user) {
         return null;
     } else {
@@ -55,7 +55,7 @@ const update = async (id, data) => {
         } else {
             password = user.password;
         }
-        console.log("on va updater");
+        // console.log("on va updater");
         // On met à jour, en réécrivant les champs potentiellement manquant, grace au user récupéré
         const [req, err] = await db.query("UPDATE users SET name=?, first_name=?, birthdate=?, address=?, postcode=?, city=?, tel=?,email = ?, profil_picture=?, certif_med=?, validity=?, share_infos=?, roles=?, validity_certif_date=?, password = ? WHERE id = ? LIMIT 1", 
         [

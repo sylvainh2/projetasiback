@@ -1,12 +1,12 @@
 const db = require('../utils/db');
 
 const getAll = async()=>{
-    const [pictures,err] = await db.query ("SELECT * FROM photos limit 10");
+    const [pictures,err] = await db.query ("SELECT * FROM photos INNER JOIN galleries ON (gallery_id = galleries.id_gall) limit 10");
     return(pictures);
 };
 
 const getByDate = async(data)=>{
-    const [pictures,err] = await db.query ("SELECT * FROM photos WHERE creation_date=?",[data]);
+    const [pictures,err] = await db.query ("SELECT * FROM photos INNER JOIN galleries ON (gallery_id = galleries.id_gall) WHERE creation_date=?",[data]);
     if(!pictures || pictures.length === 0){
         return(null);
     } else {

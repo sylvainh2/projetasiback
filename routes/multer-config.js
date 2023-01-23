@@ -9,7 +9,6 @@ const storage = multer.diskStorage({
         callback(null, name)
     }
 });
-console.log(storage);
 
 module.exports = multer({storage: storage}).single("file");
 
