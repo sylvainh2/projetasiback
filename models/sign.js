@@ -9,9 +9,9 @@ const schema = Joi.object().keys({
     name: Joi.string().required(),
     birthdate: Joi.date().min('1930-01-01').required(),
     address: Joi.string().required(),
-    postcode: Joi.string().min(5).required(),
+    postcode: Joi.string().min(5).max(6).required(),
     city: Joi.string().required(),
-    tel: Joi.string().required(),
+    tel: Joi.string().min(10).max(12).required(),
     share_infos: Joi.number()
 });
 

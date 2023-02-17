@@ -1,8 +1,7 @@
 const db = require('../utils/db');
-// const { getById } = require('./user.controller');
 
 const getByName = async(data)=>{
-    const [galleryFind,err] = await db.query ("SELECT * FROM galleries WHERE name=?",[data]);
+    const [galleryFind,err] = await db.query ("SELECT * FROM galleries WHERE name_gal=?",[data]);
     if(!galleryFind || galleryFind.length===0){
         return null;
     } else {
@@ -11,7 +10,7 @@ const getByName = async(data)=>{
 };
 
 const add = async(data)=>{
-    const [galleryPush,err] = await db.query ("INSERT INTO galleries (name) VALUES (?) LIMIT 1",[data]);
+    const [galleryPush,err] = await db.query ("INSERT INTO galleries (name_gal) VALUES (?) LIMIT 1",[data]);
     if(!galleryPush){
         return null;
     } else {

@@ -13,7 +13,7 @@ router.route('/')
         let user = await userController.getByEmail(req.body);
 
         if(user){
-            res.status(400).json();
+            res.status(400).json({message:"un compte avec cet email existe déjà"});
         } else {
             const new_user = await userController.add(req.body);
             const token = jwt.sign({

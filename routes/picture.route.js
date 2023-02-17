@@ -1,9 +1,7 @@
 const express = require('express');
 const authValidator = require('../utils/auth');
 const pictureController = require('../controllers/picture.controller');
-const validator = require('../utils/validator');
-const pictureSchema = require('../models/picture');
-const multer = require("./multer-config");
+const fs = require('fs');
 
 const router = express.Router();
 
@@ -11,6 +9,7 @@ router.route('/')
     .get(authValidator.isAuth(),async(req,res)=>{
 
         const pictures = await pictureController.getAll();
+        console.log('picture',pictures);
         if(!pictures){
             res.status(404).json({message:"Pas de photo stockée"});
         } else {
@@ -71,20 +70,21 @@ router.route('/:id')
     .delete(authValidator.isAuth(),async(req,res)=>{
 
         const picture = await pictureController.getById(req.params.id);
-
-        if (req.auth.roles != "admin" && (picture.user_id != req.auth.id)) {
+        if (req.auth.roles != "admin" && (picture[0].user_id != req.auth.id)) {
             res.status(403).json({message: "Désolé mais ce n'est pas votre image!"});
         } else if (!picture) {
             res.status(404).json();
         } else {
-
-        const pictures = await pictureController.remove(req.params.id);
-        if(!pictures){
-            res.status(404).json();
-        } else{
-            res.status(202).json();
+            console.log('uploads/'+picture[0].picture);
+            fs.unlink('uploads/'+picture[0].picture,(err)=>{if (err) throw err});
+            const pictures = await pictureController.remove(req.params.id);
+            if(!pictures){
+                res.status(404).json();
+            } else{
+                res.status(202).json(pictures);
+            }
         }
-    }})
+    })
 ;
 module.exports = router;
 

@@ -41,6 +41,8 @@ app.use('/upload',express.static(path.join(__dirname, '/uploads')));
 
 app.use('/uploads',express.static(path.join(__dirname, '/uploads')));
 
+app.use('/profiles',express.static(path.join(__dirname, '/profiles')));
+
 // On dit à notre serveur Express d'écouter le port 8080 pour fonctionner
 // (port par défaut de HTTP).
 app.listen(config.port, () => {

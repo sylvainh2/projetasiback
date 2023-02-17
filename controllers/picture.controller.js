@@ -1,12 +1,14 @@
 const db = require('../utils/db');
 
 const getAll = async()=>{
-    const [pictures,err] = await db.query ("SELECT * FROM photos INNER JOIN galleries ON (gallery_id = galleries.id_gall) limit 10");
-    return(pictures);
+    const [pictures,err] = await db.query ("SELECT * FROM photos INNER JOIN galleries ON (gallery_id = galleries.id_gall) inner join users on (user_id = users.id) order by id_pic desc limit 10");
+    const [pcount,error] = await db.query ("select count(id_pic) FROM photos");
+    console.log('pcount',pcount[0]);
+    return([pictures,pcount[0]]);
 };
 
 const getByDate = async(data)=>{
-    const [pictures,err] = await db.query ("SELECT * FROM photos INNER JOIN galleries ON (gallery_id = galleries.id_gall) WHERE creation_date=?",[data]);
+    const [pictures,err] = await db.query ("SELECT * FROM photos INNER JOIN galleries ON (gallery_id = galleries.id_gall) inner join users on(user_id=users.id) WHERE creation_date=? order by creation_date desc",[data]);
     if(!pictures || pictures.length === 0){
         return(null);
     } else {
@@ -15,7 +17,7 @@ const getByDate = async(data)=>{
 };
 
 const getById = async(data)=>{
-    const [pictures,err] = await db.query ("SELECT * FROM photos WHERE id=?",[data]);
+    const [pictures,err] = await db.query ("SELECT * FROM photos WHERE id_pic=?",[data]);
     if(!pictures || pictures.length === 0){
         return(null);
     } else {
@@ -25,7 +27,7 @@ const getById = async(data)=>{
 
 const getByGallery = async(data)=>{
 
-    const[pictures,err] = await db.query("SELECT * FROM photos INNER JOIN galleries ON (gallery_id = galleries.id_gall) WHERE name=?",[data]);
+    const[pictures,err] = await db.query("SELECT * FROM photos INNER JOIN galleries ON (gallery_id = galleries.id_gall) inner join users on (user_id = users.id) WHERE name_gal=? order by creation_date desc",[data]);
     console.log(pictures);
     if(!pictures || pictures.length === 0){
         return(null);
@@ -38,7 +40,7 @@ const getByGalleryDate = async(data)=>{
 
     let reqGallery = data.split("&")[0];
     let reqDate = data.split("&")[1];
-    const[pictures,err] = await db.query("SELECT * FROM photos INNER JOIN galleries ON (gallery_id = galleries.id_gall) WHERE name=? AND creation_date=?",[reqGallery,reqDate]);
+    const[pictures,err] = await db.query("SELECT * FROM photos INNER JOIN galleries ON (gallery_id = galleries.id_gall) inner join users on (user_id = users.id) WHERE name_gal=? AND creation_date=? order by creation_date desc",[reqGallery,reqDate]);
     if(!pictures || pictures.length === 0){
         return(null);
     } else {
@@ -52,17 +54,17 @@ const add = async(data)=>{
     if(!new_picture || new_picture.length === 0){
         return null;
     } else {
-        return new_picture;
+        return getAll();
     }
 };
 
 const remove = async(id)=>{
 
-    const [req,err] = await db.query("DELETE FROM photos WHERE id=? LIMIT 1",[id]);
+    const [req,err] = await db.query("DELETE FROM photos WHERE id_pic=? LIMIT 1",[id]);
     if(!req){
         return false;
     } else {
-        return true;
+        return getAll();
     }
 
 };
