@@ -90,7 +90,7 @@ const remove = async (id) => {
     if (!req) {
         return false;
     }
-    return true;
+    return getAll();
 };
 
 const getByEmailAndPassword = async (data) => {

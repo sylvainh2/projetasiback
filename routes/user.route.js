@@ -100,25 +100,25 @@ router.route('/user/:id')
 ;
 router.route('/user')
     .patch(authValidator.isAdmin(),validator(userdelSchema),async(req,res)=>{
-        console.log("oh non!!!");
-        const user = await userController.getByName(req.body.name,req.body.first_name);
-        if(!user || user.length==0){
-            res.status(404);
-        } else {
-            if(!(req.body.validity)){
-                req.body.validity = user.validity;
-            }
-            if(!(req.body.roles)){
-                req.body.roles = user.roles;
-            }
-            console.log(req.body.validity,req.body.roles);
-            const new_user = await userController.updateVal(user.id,req.body);
+        // console.log("oh non!!!");
+        // const user = await userController.getByName(req.body.name,req.body.first_name);
+        // if(!user || user.length==0){
+        //     res.status(404);
+        // } else {
+        //     if(!(req.body.validity)){
+        //         req.body.validity = user.validity;
+        //     }
+        //     if(!(req.body.roles)){
+        //         req.body.roles = user.roles;
+        //     }
+        //     console.log(req.body.validity,req.body.roles);
+            const new_user = await userController.updateVal(req.body.id,req.body);
             if (!new_user || new_user.length==0){
                 res.status(404).json();
             } else {
                 res.status(201).json()
             }
 
-        }
+        // }
     })
 module.exports = router;

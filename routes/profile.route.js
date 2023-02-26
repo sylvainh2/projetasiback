@@ -5,7 +5,7 @@ const fs = require('fs');
 
 const router = express.Router();
 
-router.route('/propic/')
+router.route('/')
 .post(authValidator.isAuth(),async(req, res)=>{
     const id = req.auth.id;
     console.log(id)
@@ -22,6 +22,7 @@ router.route('/propic/')
     fs.unlink('profiles/'+req.body.oldName,(err)=>{if (err) throw err});
     res.status(202).json();
 })
+;
 
 module.exports = router;
  

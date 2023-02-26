@@ -11,8 +11,10 @@ const pictureRoute = require('./picture.route');
 const galleryRoute = require('./gallery.route');
 const uploadRoute = require('./upload.route');
 const menuRoute = require('./menu.route');
-const fileupRoute = require('./fileup.route');
+const profileRoute = require('./profile.route');
 const upfile = require('../utils/fileup');
+const certifRoute = require('./certif.route');
+const certup = require('../utils/certup');
 
 // Comme sur app.js, on appelle le router de Express...
 const router = express.Router();
@@ -26,7 +28,8 @@ router.use('/photos', pictureRoute);
 router.use('/galleryupload',galleryRoute);
 router.use('/upload', multer, uploadRoute);
 router.use('/menu', menuRoute);
-router.use('/fileup', upfile, fileupRoute);
+router.use('/profile', upfile, profileRoute);
+router.use('/certif', certup, certifRoute)
 
 // On exporte le router pour le rendre accessible en faisant un 
 // require de ce fichier.

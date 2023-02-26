@@ -69,6 +69,11 @@ const remove = async(id)=>{
 
 };
 
+const update = async(id)=>{
+
+    const [req,res] = await db.query("update photos set user_id=13 where user_id=?",[id]);
+}
+
 module.exports = {
     getAll,
     getById,
@@ -76,5 +81,6 @@ module.exports = {
     getByGallery,
     getByGalleryDate,
     remove,
+    update,
     add
 };

@@ -85,6 +85,16 @@ router.route('/:id')
             }
         }
     })
+
+    .patch(authValidator.isAdmin(),async(req,res)=>{
+
+        const pictures = await pictureController.update(req.params.id);
+        if(!pictures || pictures.length==0){
+            res.status(400).json({message:"pas de photos à modifier"});
+        } else {
+            res.status(201).json(pictures);
+        }
+    })
 ;
 module.exports = router;
 
