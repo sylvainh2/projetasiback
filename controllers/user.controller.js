@@ -28,10 +28,17 @@ const getByName = async(name,first_name) => {
 };
 
 const add = async (data) => {
+    let roleVal="user";
     const hashedPassword = await bcrypt.hash(data.password, 10);
-
+    const [users,error] = await db.query ("select count(id) from users");
+    console.log('role:',users,data.share_infos,Object.values(users[0]));
+    if(!users || Object.values(users[0])==[0]){
+        roleVal = "admin"
+    } else {
+        roleVal = "user"
+    }
     const [req, err] = await db.query("INSERT INTO users (email, password, first_name, name, birthdate, address, postcode, city, tel, profil_picture, certif_med, validity, validity_certif_date, roles, share_infos) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
-    [data.email, hashedPassword, data.first_name, data.name, data.birthdate, data.address, data.postcode, data.city, data.tel,'nopic.jpg','','0','2000-01-01', 'user',data.share_infos]);
+    [data.email, hashedPassword, data.first_name, data.name, data.birthdate, data.address, data.postcode, data.city, data.tel,'nopic.jpg','','0','2000-01-01', roleVal,data.share_infos]);
     if (!req) {
         return null;
     } else {

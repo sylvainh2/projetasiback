@@ -19,7 +19,9 @@ router.route('/')
 })
 .delete(authValidator.isAuth(),async(req,res)=>{
     console.log('old',req.body.oldName);
-    fs.unlink('profiles/'+req.body.oldName,(err)=>{if (err) throw err});
+    if(req.body.oldName!="nopic.jpg"){
+        fs.unlink('profiles/'+req.body.oldName,(err)=>{if (err) throw err});
+    }
     res.status(202).json();
 })
 ;

@@ -19,6 +19,7 @@ router.route('/')
         if(!users){
             res.status(404).json({message:"Pas de données"})
         } else {
+            console.log('users',users);
             res.status(200).json(users);
         }
     })
