@@ -7,19 +7,43 @@ const router = express.Router();
 
 router.route('/')
     .get(authValidator.isAuth(),async(req,res)=>{
-
-        const pictures = await pictureController.getAll();
-        console.log('picture',pictures);
-        if(!pictures){
-            res.status(404).json({message:"Pas de photo stockée"});
-        } else {
-            res.status(200).json(pictures);
+        if(req.query.gallery && !req.query.date){
+            const pictures = await pictureController.getByGallery(req.query.gallery,parseInt(req.query.page));
+            if(!pictures){
+                res.status(404).json({message:"Pas de photo stockée"});
+            } else {
+                res.status(200).json(pictures);
+            }
+        }
+        if(req.query.date && !req.query.gallery){
+            const pictures = await pictureController.getByDate(req.query.date,parseInt(req.query.page));
+            if(!pictures){
+                res.status(404).json({message:"Pas de photo à cette date"});
+            } else {
+                res.status(200).json(pictures);
+            }
+        }
+        if(req.query.gallery && req.query.date){
+            const pictures = await pictureController.getByGalleryDate(req.query.gallery,req.query.date,parseInt(req.query.page));
+            if(!pictures){
+                res.status(404).json({message:"Pas de photo à cette date ou galerie"});
+            } else {
+                res.status(200).json(pictures);
+            }
+        }
+        if(!req.query.gallery && !req.query.date){
+            const pictures = await pictureController.getAll(parseInt(req.query.page));
+            if(!pictures){
+                res.status(404).json({message:"Pas de photo stockée"});
+            } else {
+                res.status(200).json(pictures);
+            }
         }
     })
 
     .put(authValidator.isAuth(),async(req,res)=>{
         console.log(req.body);
-        const new_picture = await pictureController.add(req.body);
+        const new_picture = await pictureController.add(req.body,req.query.page);
         if(!new_picture || new_picture.length===0){
             res.status(400).json({message:"problème à la création de la photo"});
         } else {
@@ -31,45 +55,45 @@ router.route('/')
  
 
 
-router.route('/date/:date')
-    .get(authValidator.isAuth(),async(req,res)=>{
+// router.route('/date/:date')
+//     .get(authValidator.isAuth(),async(req,res)=>{
 
-        const pictures = await pictureController.getByDate(req.params.date);
-        if(!pictures){
-            res.status(404).json({message:"Pas de photo à cette date"});
-        } else {
-            res.status(200).json(pictures);
-        }
-    })
-;
+//         const pictures = await pictureController.getByDate(req.params.date);
+//         if(!pictures){
+//             res.status(404).json({message:"Pas de photo à cette date"});
+//         } else {
+//             res.status(200).json(pictures);
+//         }
+//     })
+// ;
 
-router.route('/gallery/:gallery')
-    .get(authValidator.isAuth(),async(req,res)=>{
+// router.route('/gallery/:gallery')
+//     .get(authValidator.isAuth(),async(req,res)=>{
 
-        const pictures = await pictureController.getByGallery(req.params.gallery);
-        if(!pictures){
-            res.status(404).json({message:"Pas de photo stockée"});
-        } else {
-            res.status(200).json(pictures);
-        }
-    })
-;
+//         const pictures = await pictureController.getByGallery(req.params.gallery);
+//         if(!pictures){
+//             res.status(404).json({message:"Pas de photo stockée"});
+//         } else {
+//             res.status(200).json(pictures);
+//         }
+//     })
+// ;
 
-router.route('/gallery&date/:gallery_date')
-    .get(authValidator.isAuth(),async(req,res)=>{
-        const pictures = await pictureController.getByGalleryDate(req.params.gallery_date);
-        if(!pictures){
-            res.status(404).json({message:"Pas de photo à cette date ou gallerie"});
-        } else {
-            res.status(200).json(pictures);
-        }
-    })
-;
+// router.route('/gallery&date/:gallery_date')
+//     .get(authValidator.isAuth(),async(req,res)=>{
+//         const pictures = await pictureController.getByGalleryDate(req.params.gallery_date);
+//         if(!pictures){
+//             res.status(404).json({message:"Pas de photo à cette date ou gallerie"});
+//         } else {
+//             res.status(200).json(pictures);
+//         }
+//     })
+// ;
 
 router.route('/:id')
     .delete(authValidator.isAuth(),async(req,res)=>{
 
-        const picture = await pictureController.getById(req.params.id);
+        const picture = await pictureController.getById(req.params.id,req.query.page);
         if (req.auth.roles != "admin" && (picture[0].user_id != req.auth.id)) {
             res.status(403).json({message: "Désolé mais ce n'est pas votre image!"});
         } else if (!picture) {
