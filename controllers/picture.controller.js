@@ -60,7 +60,7 @@ const add = async(data,page)=>{
     if(!new_picture || new_picture.length === 0){
         return null;
     } else {
-        return getAll(page);
+        return getAll(0);
     }
 };
 
@@ -70,7 +70,7 @@ const remove = async(id,page)=>{
     if(!req){
         return false;
     } else {
-        return getAll(page);
+        return getAll(0);
     }
 
 };
