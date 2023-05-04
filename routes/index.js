@@ -15,6 +15,7 @@ const profileRoute = require('./profile.route');
 const upfile = require('../utils/fileup');
 const certifRoute = require('./certif.route');
 const certup = require('../utils/certup');
+const comsRoute = require('./parent.route');
 
 // Comme sur app.js, on appelle le router de Express...
 const router = express.Router();
@@ -29,7 +30,8 @@ router.use('/galleryupload',galleryRoute);
 router.use('/upload', multer, uploadRoute);
 router.use('/menu', menuRoute);
 router.use('/profile', upfile, profileRoute);
-router.use('/certif', certup, certifRoute)
+router.use('/certif', certup, certifRoute);
+router.use('/coms', comsRoute);
 
 // On exporte le router pour le rendre accessible en faisant un 
 // require de ce fichier.

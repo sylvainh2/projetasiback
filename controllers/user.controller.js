@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const db = require('../utils/db');
 
 const getAll = async() => {
-    const [users,err] = await db.query ("SELECT * FROM users order by name,first_name asc");
+    const [users,err] = await db.query ("SELECT * FROM users WHERE id!=0 order by name,first_name asc");
     return (users);
 };
 
