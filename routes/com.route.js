@@ -31,5 +31,32 @@ router.route("/")
             res.status(200).json(coms)
         }
     })
+    .delete(async(req,res)=>{
+        if(req.query.parent==null){
+            const coms = await comController.removeChild(req.query.com,req.query.react);
+            if(!coms){
+                res.status(400).json({message:"Problème à l'effacement du commentaire"})
+            } else {
+                res.status(200).json(coms)
+            }
+        } else {
+            const coms = await comController.removeChildren(req.query.picture,req.query.parent);
+            if(!coms){
+                res.status(400).json({message:"Problème à l'effacement des commentaires"})
+            } else {
+                res.status(200).json(coms)
+            }
+        }
+    })
+
+    router.route("/:idModify")
+    .patch(async(req,res)=>{
+        const coms = await comController.updateCom(req.body,req.params.idModify);
+        if(!coms){
+            res.status(400).json({message:"Problème à l'update"})
+        } else {
+            res.status(200).json(coms)
+        }
+    })
 
 module.exports = router;

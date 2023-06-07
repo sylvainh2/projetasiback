@@ -55,7 +55,7 @@ const getByGalleryDate = async(gal,date,page)=>{
 };
 
 const add = async(data,page)=>{
-    console.log("data",data.picture,data.gallery_id,data.user_id,data.title);
+    // console.log("data",data.picture,data.gallery_id,data.user_id,data.title);
     const [new_picture,err] = await db.query("INSERT INTO photos (picture,creation_date,gallery_id,user_id,title) VALUES (?,NOW(),?,?,?) LIMIT 1",[data.picture,data.gallery_id,data.user_id,data.title]);
     if(!new_picture || new_picture.length === 0){
         return null;

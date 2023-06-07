@@ -15,7 +15,7 @@ const profileRoute = require('./profile.route');
 const upfile = require('../utils/fileup');
 const certifRoute = require('./certif.route');
 const certup = require('../utils/certup');
-const comsRoute = require('./parent.route');
+const comsRoute = require('./com.route');
 
 // Comme sur app.js, on appelle le router de Express...
 const router = express.Router();
