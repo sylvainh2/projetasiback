@@ -32,7 +32,7 @@ router.route("/")
         }
     })
     .delete(async(req,res)=>{
-        if(req.query.parent==null){
+        if(req.query.picture===null){
             const coms = await comController.removeChild(req.query.com,req.query.react);
             if(!coms){
                 res.status(400).json({message:"Problème à l'effacement du commentaire"})
@@ -40,7 +40,7 @@ router.route("/")
                 res.status(200).json(coms)
             }
         } else {
-            const coms = await comController.removeChildren(req.query.picture,req.query.parent);
+            const coms = await comController.removeChildren(req.query.picture,req.query.com,req.query.react);
             if(!coms){
                 res.status(400).json({message:"Problème à l'effacement des commentaires"})
             } else {
