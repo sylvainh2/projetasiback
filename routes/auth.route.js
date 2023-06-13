@@ -12,8 +12,8 @@ router.route('/')
         let user = await userController.getByEmailAndPassword(req.body);
         if(!user){
             res.status(401).json({message: "combinaison Email/Password incorrecte"});
-        } else if(user.validity !=1){
-            res.status(401).json({message:"Désolé, votre compte n'a pas été validé"});
+        // } else if(user.validity !=1){
+        //     res.status(401).json({message:"Désolé, votre compte n'a pas été validé"});
         } else {
             const token = jwt.sign({
                 id:user.id,
