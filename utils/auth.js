@@ -48,7 +48,7 @@ const isAdmin = () => {
         jwt.verify(access_token, config.jwtPass, (err, decodedToken) => {
             if (err) {
                 res.status(401).json({message: "JWT invalide"});
-            } else if (decodedToken.roles == 'admin') {
+            } else if (decodedToken.roles === 'admin') {
                 // on rajoute le token décodé (i.e. les données de l'utilisateur) dans la requete
                 req.auth = decodedToken;
                 // on valide que si user est "admin" dans son token
