@@ -1,6 +1,7 @@
 
 const express = require('express');
 const userController = require('../controllers/user.controller');
+const runController = require('../controllers/run.controller');
 const authValidator = require('../utils/auth');
 const usermodSchema = require('../models/usermod');
 const userdelSchema = require('../models/userdel');
@@ -113,13 +114,33 @@ router.route('/user')
         //         req.body.roles = user.roles;
         //     }
         //     console.log(req.body.validity,req.body.roles);
-            const new_user = await userController.updateVal(req.body.id,req.body);
-            if (!new_user || new_user.length==0){
-                res.status(404).json();
-            } else {
-                res.status(201).json()
-            }
+        const new_user = await userController.updateVal(req.body.id,req.body);
+        if (!new_user || new_user.length==0){
+            res.status(404).json();
+        } else {
+            //modification avec new_user
+            res.status(201).json(new_user);
+        }
 
         // }
+    })
+router.route('/user/run/:id')
+    .get(authValidator.isAuth(),async(req,res)=>{
+        const run_list = await runController.getAll(req.params.id);
+        if (!run_list || run_list.length===0){
+            res.status(404).json();
+        } else {
+            res.status(201).json(run_list);
+        }
+    })
+
+router.route('/user/run')
+    .put(authValidator.isAuth(),async(req,res)=>{
+        const run_post = await runController.add(req.body);
+        if (!run_post || run_post.length===0){
+            res.status(404).json();
+        } else {
+            res.status(201).json();
+        }
     })
 module.exports = router;
