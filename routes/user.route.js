@@ -133,6 +133,14 @@ router.route('/user/run/:id')
             res.status(201).json(run_list);
         }
     })
+    .delete(authValidator.isAuth(),async(req,res)=>{
+        const runDelete = await runController.remove(req.params.id);
+        if (!runDelete || runDelete.length===0){
+            res.status(404).json();
+        } else {
+            res.status(201).json();
+        }
+    })
 
 router.route('/user/run')
     .put(authValidator.isAuth(),async(req,res)=>{

@@ -16,6 +16,16 @@ const add = async(data) => {
         return (user);
     }
 }
+const remove = async(id) => {
+    const [user,err] = await db.query ("DELETE FROM runs WHERE id_runs = ? LIMIT 1",[id]);
+    if(!user || user.length === 0){
+        return (null);
+    } else {
+        return (user);
+    }
+}
 module.exports = {
-    getAll, add
+    getAll,
+    add,
+    remove
 }
