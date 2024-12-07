@@ -33,7 +33,6 @@ const getByGallery = async(gal,page)=>{
 
     const[pictures,err] = await db.query("SELECT * FROM photos INNER JOIN galleries ON (gallery_id = galleries.id_gall) inner join users on (user_id = users.id) WHERE name_gal=? order by creation_date desc LIMIT 10 offset ?",[gal,page]);
     const [pcount,error] = await db.query ("select count(id_pic) FROM photos INNER JOIN galleries ON (gallery_id = galleries.id_gall) WHERE name_gal=?",[gal]);
-    console.log(pictures);
     if(!pictures || pictures.length === 0){
         return(null);
     } else {
@@ -55,7 +54,6 @@ const getByGalleryDate = async(gal,date,page)=>{
 };
 
 const add = async(data,page)=>{
-    // console.log("data",data.picture,data.gallery_id,data.user_id,data.title);
     const [new_picture,err] = await db.query("INSERT INTO photos (picture,creation_date,gallery_id,user_id,title) VALUES (?,NOW(),?,?,?) LIMIT 1",[data.picture,data.gallery_id,data.user_id,data.title]);
     if(!new_picture || new_picture.length === 0){
         return null;

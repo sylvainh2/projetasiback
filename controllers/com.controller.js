@@ -21,7 +21,6 @@ const add = async(data)=>{
     if (!parentCom || parentCom.length===0){
         return(null);
     } else {
-        // return getAll(data.photo_id);
         return({message:"com créé"});
     }
 }
@@ -46,20 +45,12 @@ const removeChildren = async(photo,parent,react)=>{
     if(readChildrenCom || readChildrenCom.length!==0){
         readChildrenCom.map(async(children)=>{
             if(children.reaction_id){
-                console.log("effacement reaction enfant");
                 const [childrenReact,error] = await db.query("DELETE FROM reactions WHERE id_reaction=?",[children.reaction_id])
             }
         })
-        console.log("effacement commentaires enfants");
         const [childrenComDelete,err2] = await db.query("DELETE FROM coms WHERE photo_id=? AND id_parent=?",[photo,parent])
     }
-    console.log("effacement commentaire parent");
-    // const [childComDel,err3] = await db.query("DELETE FROM coms WHERE id_parent=? and photo_id=?",[parent,photo])
-    // if (!childComDel || childComDel.length===0){
-    //     return(null);
-    // }
     return (removeChild(parent,react));
-    // return({message:"commentaire effacé"})
 }
 const removeReact = async(react)=>{
     const [reactDel,err] = await db.query("DELETE FROM reactions WHERE id_reaction=?",[react]);

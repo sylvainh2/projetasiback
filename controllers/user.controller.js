@@ -7,12 +7,10 @@ const getAll = async() => {
 };
 
 const getById = async(id) => {
-    console.log(id);
     const [user,err] = await db.query ("SELECT * FROM users WHERE id=?",[id]);
     if(!user || user.length === 0){
         return (null);
     } else {
-        // console.log(user[0].birthdate);
         return (user[0]);
     }
 };
@@ -22,7 +20,6 @@ const getByName = async(name,first_name) => {
     if(!user || user.length === 0){
         return null;
     } else {
-        console.log("recupéré");
         return (user[0]);
     }
 };
@@ -31,14 +28,13 @@ const add = async (data) => {
     let roleVal="user";
     const hashedPassword = await bcrypt.hash(data.password, 10);
     const [users,error] = await db.query ("select count(id) from users");
-    console.log('role:',users,data.share_infos,Object.values(users[0]));
     if(!users || Object.values(users[0])==[0]){
         roleVal = "admin"
     } else {
         roleVal = "user"
     }
-    const [req, err] = await db.query("INSERT INTO users (email, password, first_name, name, birthdate, address, postcode, city, tel, profil_picture, certif_med, validity, validity_certif_date, roles, share_infos) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
-    [data.email, hashedPassword, data.first_name, data.name, data.birthdate, data.address, data.postcode, data.city, data.tel,'nopic.jpg','','0','2000-01-01', roleVal,data.share_infos]);
+    const [req, err] = await db.query("INSERT INTO users (email, password, first_name, name, birthdate, address, postcode, city, tel, profil_picture, certif_med, validity, validity_certif_date, roles, share_infos, inscription) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+    [data.email, hashedPassword, data.first_name, data.name, data.birthdate, data.address, data.postcode, data.city, data.tel,'nopic.jpg','','0','2000-01-01', roleVal,data.share_infos,null]);
     if (!req) {
         return null;
     } else {
@@ -49,10 +45,8 @@ const add = async (data) => {
 };
 
 const update = async (id, data) => {
-    // console.log("update/");
     // Pour update, on va d'abord chercher en base le user correspondant
     const user = await getById(id);
-    // console.log("getbyid");
     if (!user) {
         return null;
     } else {
@@ -62,7 +56,6 @@ const update = async (id, data) => {
         } else {
             password = user.password;
         }
-        // console.log("on va updater");
         // On met à jour, en réécrivant les champs potentiellement manquant, grace au user récupéré
         const [req, err] = await db.query("UPDATE users SET name=?, first_name=?, birthdate=?, address=?, postcode=?, city=?, tel=?,email = ?, profil_picture=?, certif_med=?, validity=?, share_infos=?, roles=?, validity_certif_date=?, password = ? WHERE id = ? LIMIT 1", 
         [
@@ -105,7 +98,6 @@ const getByEmailAndPassword = async (data) => {
     if (!user) { 
         return null;
     }
-    console.log("user");
     const hashedPassword = await bcrypt.compare(data.password, user.password);
     
     if (hashedPassword) {
@@ -124,7 +116,6 @@ const updateVal =async(id,data) => {
     }
 }
 const getByEmail = async (data) => {
-    console.log(data.email);
     const [user, err] = await db.query("SELECT * FROM users WHERE email = ?", [data.email]);
     if (!user || user.length == 0) {
         return null;

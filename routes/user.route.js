@@ -2,6 +2,7 @@
 const express = require('express');
 const userController = require('../controllers/user.controller');
 const runController = require('../controllers/run.controller');
+const inscriptionController = require('../controllers/inscription.controller.js');
 const authValidator = require('../utils/auth');
 const usermodSchema = require('../models/usermod');
 const userdelSchema = require('../models/userdel');
@@ -47,30 +48,7 @@ router.route('/:id')
             res.status(200).json(user);
         }
     })
-
-//     .patch(authValidator.isAuth(),async(req,res)=>{
-//         const user = await userController.update(req.params.id,req.body);
-//         if(!user){
-//             res.status(404).json();
-//         } else {
-//             res.status(202).json(user);
-//         }
-//     })
-
-    
 ;
-
-// router.route('/user/:id')
-//     .get(authValidator.isAuth(),async(req,res)=>{
-//         console.log(req.params.id);
-//         const user = await userController.getById(req.params.id);
-//         if(!user){
-//             res.status(404).json();
-//         } else {
-//             res.status(202).json(user);
-//         }
-//     })
-// ;
 router.route('/user/:name')
     .get(authValidator.isAuth(),async(req,res)=>{
         const user = await userController.getByName(req.params.name.split('&')[0],req.params.name.split('&')[1]);
@@ -102,18 +80,6 @@ router.route('/user/:id')
 ;
 router.route('/user')
     .patch(authValidator.isAdmin(),validator(userdelSchema),async(req,res)=>{
-        // console.log("oh non!!!");
-        // const user = await userController.getByName(req.body.name,req.body.first_name);
-        // if(!user || user.length==0){
-        //     res.status(404);
-        // } else {
-        //     if(!(req.body.validity)){
-        //         req.body.validity = user.validity;
-        //     }
-        //     if(!(req.body.roles)){
-        //         req.body.roles = user.roles;
-        //     }
-        //     console.log(req.body.validity,req.body.roles);
         const new_user = await userController.updateVal(req.body.id,req.body);
         if (!new_user || new_user.length==0){
             res.status(404).json();
@@ -121,8 +87,6 @@ router.route('/user')
             //modification avec new_user
             res.status(201).json(new_user);
         }
-
-        // }
     })
 router.route('/user/run/:id')
     .get(authValidator.isAuth(),async(req,res)=>{
@@ -146,6 +110,17 @@ router.route('/user/run')
     .put(authValidator.isAuth(),async(req,res)=>{
         const run_post = await runController.add(req.body);
         if (!run_post || run_post.length===0){
+            res.status(404).json();
+        } else {
+            res.status(201).json();
+        }
+    })
+
+router.route('/user/inscription/:id')
+    .patch(authValidator.isAuth(),async(req,res)=>{
+        const data = JSON.stringify(req.body.inscription);
+        const medical_valid = await inscriptionController.update(data,req.params.id);
+        if (!medical_valid || medical_valid.length===0){
             res.status(404).json();
         } else {
             res.status(201).json();

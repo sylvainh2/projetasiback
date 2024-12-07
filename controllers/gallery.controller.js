@@ -14,7 +14,6 @@ const add = async(data)=>{
     if(!galleryPush){
         return null;
     } else {
-        console.log(galleryPush, galleryPush.insertId);
         return getByIdGall(galleryPush.insertId);
     }
 };
