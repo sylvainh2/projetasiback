@@ -117,7 +117,7 @@ router.route('/user/run')
     })
 
 router.route('/user/inscription/:id')
-    .patch(authValidator.isAuth(),async(req,res)=>{
+    .patch(authValidator.isAdmin(),async(req,res)=>{
         const data = JSON.stringify(req.body.inscription);
         const medical_valid = await inscriptionController.update(data,req.params.id);
         if (!medical_valid || medical_valid.length===0){
