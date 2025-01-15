@@ -33,8 +33,8 @@ const add = async (data) => {
     } else {
         roleVal = "user"
     }
-    const [req, err] = await db.query("INSERT INTO users (email, password, first_name, name, birthdate, address, postcode, city, tel, profil_picture, certif_med, validity, validity_certif_date, roles, share_infos, inscription) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
-    [data.email, hashedPassword, data.first_name, data.name, data.birthdate, data.address, data.postcode, data.city, data.tel,'nopic.jpg','','0','2000-01-01', roleVal,data.share_infos,null]);
+    const [req, err] = await db.query("INSERT INTO users (email, password, first_name, name, birthdate, address, postcode, city, tel, profil_picture, certif_med, validity, validity_certif_date, roles, share_infos, inscription, inscript_certif) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+    [data.email, hashedPassword, data.first_name, data.name, data.birthdate, data.address, data.postcode, data.city, data.tel,'nopic.jpg','','0','2000-01-01', roleVal,data.share_infos,null,""]);
     if (!req) {
         return null;
     } else {
