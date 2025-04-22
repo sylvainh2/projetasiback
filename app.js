@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const path = require('path');
+const bodyparser = require ('body-parser');
 
 // On appelle également notre fichier "config.json" dans lequel 
 // se trouvent les paranètres de notre serveur.
@@ -28,6 +29,9 @@ app.use(cors());
 // JSON du paquet Express, pour permettre à Express de parser le JSON 
 // envoyé dans le corps des requêtes
 app.use(express.json());
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({extended:false}));
+
 
 
 // On applique notre router (situé dans routes/index.js) sur l'adresse
