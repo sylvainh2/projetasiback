@@ -36,7 +36,7 @@ router.use('/profile', upfile, profileRoute);
 router.use('/certif', certup, certifRoute);
 router.use('/inscript',inscriptup,inscriptCertifRoute);
 router.use('/coms', comsRoute);
-router.use('/send-emailcode', codeRoute);
+router.use('/emailcode', codeRoute);
 
 // On exporte le router pour le rendre accessible en faisant un 
 // require de ce fichier.
