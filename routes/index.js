@@ -19,6 +19,7 @@ const comsRoute = require('./com.route');
 const inscriptup = require('../utils/inscriptup');
 const inscriptCertifRoute = require('./inscript_certif.route');
 const codeRoute = require('./code.route');
+const codeValidRoute = require('./cvalid.route');
 
 // Comme sur app.js, on appelle le router de Express...
 const router = express.Router();
@@ -37,6 +38,7 @@ router.use('/certif', certup, certifRoute);
 router.use('/inscript',inscriptup,inscriptCertifRoute);
 router.use('/coms', comsRoute);
 router.use('/emailcode', codeRoute);
+router.use('/code', codeValidRoute);
 
 // On exporte le router pour le rendre accessible en faisant un 
 // require de ce fichier.

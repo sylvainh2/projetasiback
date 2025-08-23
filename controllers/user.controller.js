@@ -33,8 +33,8 @@ const add = async (data) => {
     } else {
         roleVal = "user"
     }
-    const [req, err] = await db.query("INSERT INTO users (email, password, first_name, name, birthdate, address, postcode, city, tel, profil_picture, certif_med, validity, validity_certif_date, roles, share_infos, inscription, inscript_certif) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
-    [data.email, hashedPassword, data.first_name, data.name, data.birthdate, data.address, data.postcode, data.city, data.tel,'nopic.jpg','','0','2000-01-01', roleVal,data.share_infos,null,""]);
+    const [req, err] = await db.query("INSERT INTO users (email, password, first_name, name, birthdate, address, postcode, city, tel, profil_picture, certif_med, validity, validity_certif_date, roles, share_infos, inscription, inscript_certif,code) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+    [data.email, hashedPassword, data.first_name, data.name, data.birthdate, data.address, data.postcode, data.city, data.tel,'nopic.jpg','','0','2000-01-01', roleVal,data.share_infos,null,"",null]);
     if (!req) {
         return null;
     } else {
@@ -57,7 +57,7 @@ const update = async (id, data) => {
             password = user.password;
         }
         // On met à jour, en réécrivant les champs potentiellement manquant, grace au user récupéré
-        const [req, err] = await db.query("UPDATE users SET name=?, first_name=?, birthdate=?, address=?, postcode=?, city=?, tel=?,email = ?, profil_picture=?, certif_med=?, validity=?, share_infos=?, roles=?, validity_certif_date=?, password = ? WHERE id = ? LIMIT 1", 
+        const [req, err] = await db.query("UPDATE users SET name=?, first_name=?, birthdate=?, address=?, postcode=?, city=?, tel=?,email = ?, profil_picture=?, certif_med=?, validity=?, share_infos=?, roles=?, validity_certif_date=?, password = ?,code = ? WHERE id = ? LIMIT 1", 
         [
             data.name || user.name,
             data.first_name || user.first_name,
@@ -74,6 +74,7 @@ const update = async (id, data) => {
             data.roles || user.roles,
             data.validity_certif_date || user.validity_certif_date,
             password,
+            user.code,
             id
         ]);
         if (!req) {

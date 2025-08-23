@@ -40,7 +40,7 @@ router.route('/')
 ;
 
 router.route('/:id')
-    .get(authValidator.isAuth(),async(req,res)=>{
+    .get(authValidator.isAuthNv(),async(req,res)=>{
         const user = await userController.getById(req.params.id);
         if(!user || user.length===0){
             res.status(404).json();
@@ -60,7 +60,7 @@ router.route('/user/:name')
     })
 ;
 router.route('/user/:id')
-    .patch(authValidator.isAuth(),validator(usermodSchema),async(req,res)=>{
+    .patch(authValidator.isAuthNv(),validator(usermodSchema),async(req,res)=>{
         const user = await userController.update(req.params.id,req.body);
         if(!user || user.length===0){
             res.status(404).json();
@@ -89,7 +89,7 @@ router.route('/user')
         }
     })
 router.route('/user/run/:id')
-    .get(authValidator.isAuth(),async(req,res)=>{
+    .get(authValidator.isAuthNv(),async(req,res)=>{
         const run_list = await runController.getAll(req.params.id);
         if (!run_list || run_list.length===0){
             res.status(404).json();
@@ -97,7 +97,7 @@ router.route('/user/run/:id')
             res.status(201).json(run_list);
         }
     })
-    .delete(authValidator.isAuth(),async(req,res)=>{
+    .delete(authValidator.isAuthNv(),async(req,res)=>{
         const runDelete = await runController.remove(req.params.id);
         if (!runDelete || runDelete.length===0){
             res.status(404).json();
@@ -107,7 +107,7 @@ router.route('/user/run/:id')
     })
 
 router.route('/user/run')
-    .put(authValidator.isAuth(),async(req,res)=>{
+    .put(authValidator.isAuthNv(),async(req,res)=>{
         const run_post = await runController.add(req.body);
         if (!run_post || run_post.length===0){
             res.status(404).json();

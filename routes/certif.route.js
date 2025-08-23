@@ -6,7 +6,7 @@ const fs = require('fs');
 const router = express.Router();
 
 router.route('/')
-.post(authValidator.isAuth(),async(req, res)=>{
+.post(authValidator.isAuthNv(),async(req, res)=>{
     const id = req.auth.id;
     console.log(id)
     console.log('req',req.file.filename);
@@ -17,7 +17,7 @@ router.route('/')
         res.status(202).json({message:"certificat uploadé"});
     }
 })
-.delete(authValidator.isAuth(),async(req,res)=>{
+.delete(authValidator.isAuthNv(),async(req,res)=>{
     console.log('old',req.body.oldNameC);
     if(req.body.oldNameC){
         fs.unlink('certifs/'+req.body.oldNameC,(err)=>{if (err) throw err});

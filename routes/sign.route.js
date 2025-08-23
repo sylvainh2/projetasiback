@@ -30,6 +30,14 @@ router.route('/')
             });
         }
     })
+    .patch(async(req,res)=>{
+        let user = await userController.update(req.body.id,req.body);
+        if(!user){
+            res.status(400).json({message:"Email incorrect/inconnu"});
+        }else{
+            res.status(200).json(user);
+        }
+    })
 
 router.route('/:email')
     .get(async(req,res)=>{
